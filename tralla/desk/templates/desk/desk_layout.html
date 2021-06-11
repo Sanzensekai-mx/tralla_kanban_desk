@@ -1,0 +1,78 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/1a106567ff.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'desk/css/desk.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header class=".fix_top">
+        <div class="bar">
+            <div class="bar-item first-bar-el">
+                <span class="field">
+                    {% block username %}
+                    {% endblock %}
+                </span>
+            </div>
+            <a href="{% url 'desk_home' %}" class="bar-el-logo">
+                <img src="{% static 'desk/img/tralla3-removebg-preview.png' %}" alt="Tralla" class="logo">
+            </a>
+            <div class="bar-item second-bar-el">
+                <a href="{% url 'log_out' %}" class="field">Выйти</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="desk-field">
+            <div class="desk-field-title">
+                <div class="title-icon">
+                    <i class="far fa-object-group"></i>
+                </div>
+                <h3 class="title">Ваши доски</h3>
+            </div>
+            <div class="board-page">
+                <ul class='contain-board'>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                    <li class="board-section create-board">
+                        <a class="board-tile"><i class="fas fa-plus"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
