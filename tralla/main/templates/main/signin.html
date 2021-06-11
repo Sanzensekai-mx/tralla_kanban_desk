@@ -3,5 +3,10 @@
 {% block title %}Вход | Tralla{% endblock %}
 
 {% block content %}
-<p>Вход в Tralla</p>    
+<h4>Вход</h4>
+<form method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Log-in"></p>
+</form>
 {% endblock %}
