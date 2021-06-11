@@ -1,0 +1,29 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/1a106567ff.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'main/css/sign.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'main/css/main.css' %}"> -->
+</head>
+<body>
+    <div class="logo-center">
+        <img src="{% static 'main/img/logo_simple2.jpg' %}", ald="Tralla", class="logo-img">
+        <span class="logo-text">Tralla</span>
+    </div>
+    <main>
+        <div class="input-section-wrapper">
+            <div class="sign_form">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

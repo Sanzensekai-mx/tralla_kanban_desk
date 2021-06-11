@@ -11,3 +11,11 @@ def index(request):
 def about(request):
     # return HttpResponse("<h4>Сделал Яманчев Иван</h4>")
     return render(request, 'main/about.html')
+
+
+def sign_in(request):
+    return render(request, 'main/signin.html')
+
+
+def sign_up(request):
+    return render(request, 'main/signup.html')
