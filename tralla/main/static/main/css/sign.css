@@ -58,10 +58,20 @@ form {
     text-align: center;
 }
 
-#id_username {
+/* #id_username {
     margin-left: 5px;
 }
 
 #id_password {
     margin-left: 10px;
+} */
+
+.form-group {
+    margin: 10px 0;
+}
+
+.form-group input{
+    width: 200px;
+    height: 25px;
+    border-radius: 3px;
 }
