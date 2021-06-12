@@ -17,13 +17,16 @@
         </div>
         <div class="board-page">
             <ul class='contain-board'>
-                <li class="board-section">
-                    <a class="board-tile" href="{% url 'home' %}">Обучение программированию</a>
-                </li>
-                <li class="board-section">
-                    <a class="board-tile create-board" href="{% url 'home' %}"><i class="fas fa-plus"></i></a>
-                </li>
-            
+            {% for b in boards %}
+                {% if b.user.username == user.username %}
+                    <li class="board-section">
+                        <a class="board-tile" href="{% url 'home' %}">{{ b }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            <li class="board-section">
+                <a class="board-tile create-board" href="{% url 'home' %}"><i class="fas fa-plus"></i></a>
+            </li>    
             </ul>
         </div>
     </div>
