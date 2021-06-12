@@ -1,0 +1,28 @@
+{% extends 'desk/desk_layout.html' %}
+
+{% block title %}Новая карта |  {{user.username}}{% endblock %}
+
+{% block username %}
+{{ user.username }}
+{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Форма</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{form.name}}
+            {{form.data}}
+            <!-- {{form.user.as_hidden}} -->
+            <!-- {{form.name}} -->
+            <!-- <input type="hidden" value={{user.username}}> -->
+            <!-- <input type="text" placeholder="Название карты" class="form-control"> -->
+            <!-- <input type="text" placeholder="Название столбца" class="form-control">-->
+<!--            <input type="text" placeholder="Название столбца" class="form-control">-->
+<!--            <input type="text" placeholder="Название столбца" class="form-control">-->
+            <!-- <textarea class="form-control" placeholder="Json столбцов и тд"></textarea> -->
+            <button class="btn btn-success" type="submit">Сохранить</button> 
+            {{error}}
+        </form>
+    </div>
+{% endblock %}

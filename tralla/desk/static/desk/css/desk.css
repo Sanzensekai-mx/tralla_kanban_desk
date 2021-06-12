@@ -209,3 +209,9 @@ ul {
     transform: scale(1.03);
     transition: transform .10s;
 }
+
+form {
+    margin-left: 32%;
+    width: 500px;
+    margin-top: 50px;
+}
