@@ -1,28 +1,24 @@
-from django.forms import ModelForm, TextInput, Textarea, HiddenInput, CharField, JSONField
-from .models import Board
+from django.forms import ModelForm, TextInput, Textarea
+from django import forms
+from .models import Board, Column, Card
 
 
 class BoardForm(ModelForm):
-    # user = CharField(widget=HiddenInput())
-    # name = CharField(widget=TextInput(attrs={
-    #     'class': 'form-control',
-    #     'placeholder': 'Название карты'
-    # }))
-    # data = JSONField(widget=Textarea(attrs={
-    #     'class': 'form-control',
-    #     'placeholder': 'Json'
-    # }))
     class Meta:
         model = Board
-        fields = ['name', 'data']
-
+        fields = ['name']
         widgets = {
-            "name": TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Название карты'
-            }),
-            "data": Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Json'
+            'name': TextInput(attrs={
+                'class': 'form-control sign-up-input'
             })
         }
+
+    def save_board(self, user):
+        new_board = Board(name=self.cleaned_data['board_name'], user=user)
+        new_board.save()
+
+    def update_board(self, board):
+        board.name = self.cleaned_data['board_name']
+        board.save()
+        return board
+

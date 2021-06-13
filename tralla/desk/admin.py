@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Board
+from .models import Board, Column, Card
 
 # Register your models here.
 
-# admin.site.register(Desk)
 admin.site.register(Board)
+admin.site.register(Column)
+admin.site.register(Card)
