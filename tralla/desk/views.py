@@ -25,7 +25,7 @@ def desk_home(request):
     return render(request, 'desk/home.html', {'boards': boards})
 
 
-def desk_logout(request):
+def desk_logout(request, username):
     logout(request)
     return redirect('/')
 

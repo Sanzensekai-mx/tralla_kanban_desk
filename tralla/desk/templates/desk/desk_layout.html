@@ -28,11 +28,11 @@
                     </a>
                 </span>
             </div>
-            <a href="{% url 'home' %}" class="bar-el-logo">
+            <a href="{% url 'desk_home' user.username %}" class="bar-el-logo">
                 <img src="{% static 'desk/img/tralla3-removebg-preview.png' %}" alt="Tralla" class="logo">
             </a>
             <div class="bar-item second-bar-el">
-                <a class="field afield" href="{% url 'log_out' %}"><span>Выйти</span></a>
+                <a class="field afield" href="{% url 'log_out' user.username %}"><span>Выйти</span></a>
             </div>
         </div>
     </header>

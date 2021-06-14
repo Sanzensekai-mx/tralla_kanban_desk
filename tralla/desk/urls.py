@@ -3,9 +3,9 @@ from . import views
 
 
 urlpatterns = [
-    path('<str:username>', views.IndexView.as_view(), name='home'),
+    path('<str:username>', views.IndexView.as_view(), name='desk_home'),
     # path('home', views.desk_home, name='desk_home'),
-    path('logout', views.desk_logout, name='log_out'),
+    path('<str:username>/logout', views.desk_logout, name='log_out'),
     path('<int:id>/board', views.BoardView.as_view(), name='board'),
     path('add/<int:id>', views.AddColumnView.as_view(), name='add_column'),
     path('update/<int:id>', views.UpdateColumnView.as_view(), name='update_column'),
