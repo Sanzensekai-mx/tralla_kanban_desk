@@ -29,7 +29,7 @@ def sign_in(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect('desk/home')
+                    return redirect(f'desk/{user.username}')
                     # return render(request, 'desk/home.html', {'user': user})
                 else:
                     form = LoginForm()

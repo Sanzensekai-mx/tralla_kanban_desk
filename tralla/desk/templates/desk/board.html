@@ -8,19 +8,41 @@
 
 {% block content %}
     <div class="features">
-        <h1>{{ board.name }}</h1>
-        <!-- <form method="POST"> -->
+        <form name="EditModal" method="post" novalidate="">
             {% csrf_token %}
-            <!-- {{form.user.as_hidden}} -->
-            <!-- {{form.name}} -->
-            <!-- <input type="hidden" value={{user.username}}> -->
-            <!-- <input type="text" placeholder="Название карты" class="form-control"> -->
-            <!-- <input type="text" placeholder="Название столбца" class="form-control">-->
-<!--            <input type="text" placeholder="Название столбца" class="form-control">-->
-<!--            <input type="text" placeholder="Название столбца" class="form-control">-->
-            <!-- <textarea class="form-control" placeholder="Json столбцов и тд"></textarea> -->
-            <!-- <button class="btn btn-success" type="submit">Сохранить</button>  -->
-            <!-- <a onclick="">Создать новый блок</a> -->
-        <!-- </form> -->
+              <div class="modal-body">
+                {{ board.name }}
+                {{ board_form.board_name }}       
+            </div>
+              <div class="modal-footer">
+                <button name="EditModal" type="submit" class="btn btn-primary">Обновить название</button>
+              </div>
+        </form>
     </div>
+    <main>
+        <div class="columns-page">
+            <ul class='contain-columns'>
+            {% for c in columns %}
+                <li class="columns-section">
+                    <div class="columns-tile" href="{% url 'board' c.id %}">
+                        {{ c.name }}
+                        {% for card in cards %}
+                            {% if c.id ==  card.column.id %}
+                            <input id="input-card-title" class="form-control card-class-title display-none" value="{{ card.name }}"> 
+                            <button name="" id="card-button-update-title"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Сохранить</button>
+                            <button name="" id="card-button-cancel-title"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Отмена</button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </li>
+            {% endfor %}
+            <li class="columns-section-new">
+                <a class="column-tile create-column" href="{% url 'board' 9 %}"><i class="fas fa-plus"></i></a>
+            </li>    
+            </ul>
+        </div>
+    <!--  Board Dynamic Design Stuff -->
+
+    </main>
 {% endblock %}

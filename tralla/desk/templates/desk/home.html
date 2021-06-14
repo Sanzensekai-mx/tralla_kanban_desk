@@ -19,11 +19,11 @@
             <ul class='contain-board'>
             {% for b in boards %}
                 <li class="board-section">
-                    <a class="board-tile" href="{% url 'board-detail' b.id %}">{{ b.name }}</a>
+                    <a class="board-tile" href="{% url 'board' b.id %}">{{ b.name }}</a>
                 </li>
             {% endfor %}
             <li class="board-section">
-                <a class="board-tile create-board" href="{% url 'board-detail' 9 %}"><i class="fas fa-plus"></i></a>
+                <a class="board-tile create-board" href="{% url 'board' 9 %}"><i class="fas fa-plus"></i></a>
             </li>    
             </ul>
         </div>
