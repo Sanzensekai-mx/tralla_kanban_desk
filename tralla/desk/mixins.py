@@ -13,10 +13,8 @@ class AJAXBoardMixIn:
     def return_board(self):
         board_id = self.kwargs.get('id')
         board = get_object_or_404(Board, pk=self.kwargs.get('id'))
-        all_columns = Column.objects.filter(
-            board__id=board_id, archived=False).order_by('position')
-        cards = Card.objects.filter(
-            column__board__id=board_id, archived=False)
+        all_columns = Column.objects.filter(board__id=board_id).order_by('position')
+        cards = Card.objects.filter(column__board__id=board_id).order_by('position')
 
         serialized_data_card = serializers.serialize('json', cards)
         serialized_data_column = serializers.serialize('json', all_columns)

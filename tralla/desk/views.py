@@ -150,12 +150,12 @@ class AddColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
         column_name = self.request.POST.get('name')
         board_id = self.kwargs.get('id')
         board = get_object_or_404(Board, id=board_id)
-        max_position = Column.objects.filter(archived=False).aggregate(Max('position'))
+        max_position = Column.objects.aggregate(Max('position'))
         to_add_position = 1
         maximum_exists = max_position.get('position__max')
         if maximum_exists:
             to_add_position = maximum_exists + 1
-        new_column = Column(board=board, name=column_name, position=to_add_position)
+        new_column = Column(board=board, name=column_name, position=to_add_position, user=self.request.user)
         new_column.save()
         data = self.return_board()
         # needs to be changed
@@ -165,11 +165,11 @@ class AddColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
 class UpdateColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
 
     def post(self, *args, **kwargs):
-        title = self.request.POST.get('title')
+        name = self.request.POST.get('name')
         to_update_id = self.request.POST.get('id')
         board = get_object_or_404(Board, pk=self.kwargs.get('id'))
         column = get_object_or_404(Column, id=to_update_id)
-        column.name = title
+        column.name = name
         column.save()
         data = self.return_board()
         # needs to be changed
@@ -183,9 +183,8 @@ class AddCardView(LoginRequiredMixin, AJAXBoardMixIn, View):
         column_id = self.request.POST.get('id')
         column = get_object_or_404(Column, pk=column_id)
         board = get_object_or_404(Board, pk=self.kwargs.get('id'))
-        new_card = Card(name=name, column=column, position=0)
+        new_card = Card(name=name, column=column, position=0, user=self.request.user)
         new_card.save()
-        print('hello')
 
         data = self.return_board()
         return JsonResponse(data)
