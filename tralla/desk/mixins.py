@@ -43,3 +43,16 @@ class AJAXCardMixIn:
                 'current_user': current_user
                 }
         return data
+
+
+class AJAXHomeMixIn:
+
+    def return_boards(self):
+        username = self.kwargs.get('username')
+        user = get_object_or_404(User, username=username)
+        boards = Board.objects.filter(user__id=user.id)
+        serialized_data_boards = serializers.serialize('json', boards)
+
+        data = {'boards': boards}
+
+        return data

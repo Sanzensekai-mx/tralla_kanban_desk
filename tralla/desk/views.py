@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 
 from .models import Board, Column, Card
 from .forms import BoardForm
-from .mixins import AJAXBoardMixIn, AJAXCardMixIn
+from .mixins import AJAXBoardMixIn, AJAXCardMixIn, AJAXHomeMixIn
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -142,6 +142,19 @@ class BoardView(LoginRequiredMixin, generic.DetailView):
                       })
     # def get_object(self, **kwargs):
     #     return self.request.user
+
+
+class CreateBoard(LoginRequiredMixin, AJAXHomeMixIn, View):
+    # form = BoardForm
+
+    def post(self, *args, **kwargs):
+        board_name = 'Новая доска'
+        username = self.kwargs.get('username')
+        user = get_object_or_404(User, username=username)
+        new_board = Board(name=board_name, user=self.request.user)
+        new_board.save()
+        data = self.return_boards()
+        return JsonResponse(data)
 
 
 class AddColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
