@@ -8,22 +8,27 @@
 
 {% block content %}
 <!-- old_board here -->
+<!-- <div> -->
 <div class="modal fade modal-fixed" id="EditBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div> -->
     <div class="modal-dialog" role="document">
+      <!-- <div> -->
       <div class="modal-content">
+        <!-- <div> -->
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Update Board Name</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Обновить название доски</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form name="EditModal" method="post" novalidate="">
           {% csrf_token %}
-            <div class="modal-body">
+            <!-- <div class="modal-body"> -->
+          <div>
               {{ board_form.board_name }}       
           </div>
             <div class="modal-footer">
-              <button name="EditModal" type="submit" class="btn btn-primary">Update Board</button>
+              <button name="EditModal" type="submit" class="btn btn-primary">Обновить</button>
             </div>
       </form>
       </div>
@@ -39,10 +44,10 @@
                <div class="modal-content">
                   <div class="modal-header">
                     <div class="left-portion-of-header col-lg-9 col-md-9 col-sm-9">
-                      <h3 id="heading-card-title" action="{% url 'update_card_title' id=board.id %}" data-value="card_id" class="modal-title card-class-title"><strong><div class="reload-title">Card Title</div></strong></h3>
+                      <h3 id="heading-card-title" action="{% url 'update_card_title' id=board.id %}" data-value="card_id" class="modal-title card-class-title"><strong><div class="reload-title">Название карточки</div></strong></h3>
                        <input id="input-card-title" class="form-control card-class-title display-none" value="Card Title"> 
-                          <button name="" id="card-button-update-title"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Save</button>
-                          <button name="" id="card-button-cancel-title"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Cancel</button>
+                          <button name="" id="card-button-update-title"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Сохранить</button>
+                          <button name="" id="card-button-cancel-title"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Отмена</button>
                     </div>
                     <div class="right-portion-of-header col-lg-3 col-md-3 col-sm-3">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -52,7 +57,7 @@
                   </div>
                   <div class="modal-body">
                      <div class="left-portion-of-header col-lg-9 col-md-9 col-sm-9">
-                          <h5 class="modal-label-desc" id="exampleModalLabel">Card Description</h5>
+                          <h5 class="modal-label-desc" id="exampleModalLabel">Описание карточки</h5>
   
                    </div>
                     <div class="right-portion-of-header col-lg-3 col-md-3 col-sm-3">
@@ -62,14 +67,14 @@
   
                         <textarea readonly id="text-id-description" class="textarea class-description" placeholder="Card Description"></textarea>
   
-                        <button name="" id="card-button-add-description"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Save</button>
-                        <button name="" id="card-button-cancel-description"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Cancel</button>
+                        <button name="" id="card-button-add-description"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Сохранить</button>
+                        <button name="" id="card-button-cancel-description"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Отмена</button>
                       </div>
   
                       <div class="right-portion-of-modal col-lg-3 col-md-3 col-sm-3">
                           <button data-toggle="modal" data-target="#CardMemberModal"  name="MessageBoxModalAlert" class="btn btn-secondary card-button-invite mt-1" data-dismiss="modal">Members</button>
                           <button data-toggle="modal" data-target="#DueDateModal" name="MessageBoxModalAlert" class="btn btn-secondary card-button-due-date mt-1" data-dismiss="modal">Due Date</button>
-                          <button  data-toggle="modal" data-target="#ArchiveCardConfirmation"  name="MessageBoxModalAlert" class="btn btn-secondary card-button-due-date mt-1" data-dismiss="modal">Archive</button>
+                          <button  data-toggle="modal" data-target="#ArchiveCardConfirmation"  name="MessageBoxModalAlert" class="btn btn-secondary card-button-due-date mt-1" data-dismiss="modal">Удалить??</button>
   
                       </div>
                       <!-- Bottom Part -->
@@ -89,22 +94,23 @@
       </div>
     </div>
       <!-- Design for page elements -->
-  
-      <div class="row custom-row">
-          <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 padding-left-40">
+      <div class="board-name-row">
+      <!-- <div class="row custom-row"> -->
+          <!-- <div> -->
+            <!-- col-sm-5 -->
+          <div class="col-lg-5 col-md-5 col-xs-5 padding-left-40">
               <p class="custom-boards-title"> {{ board.name }} </p>
+              <div class="dropdown ml-3 text-right dropdown-right settings">
+                <a class="btn btn-primary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Настройки
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" data-toggle="modal" data-target="#EditBoardModal">Обновить название</a>
+                  <a class="dropdown-item" data-toggle="modal" data-target="#ArchiveBoardModal">Удалить доску??</a>
+                </div>
+              </div>
           </div>
-                  <div class="dropdown ml-3 text-right dropdown-right">
-                    <a class="btn btn-primary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Settings
-                    </a>
-  
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" data-toggle="modal" data-target="#EditBoardModal">Update Board</a>
-                      <a class="dropdown-item" data-toggle="modal" data-target="#ArchiveBoardModal">Archive Board</a>
-                    </div>
-          </div>
-  
       </div>
   
     <!--  Board Dynamic Design Stuff -->
@@ -114,12 +120,15 @@
             <div class="floatbox transferable-columns" data-value="{{ column.id }}">
               <!-- Column name -->
                    <div id="existing-label-{{column.id}}" class="existing-reactor" data-value="{{ column.id }}">
-                      <label data-value="{{ column.id }}" class="existing-label form-control title-column-class non-editable-add-column" placeholder="Add List">{{ column.name }}</label>
-                  </div>
-                    <form  id="existing-form-{{column.id}}"class="existing-form"  data-value="{{ column.id }}"  action="{% url 'update_column' id=board.id %}" data-url="{% url 'update_column' id=board.id %}">
+                      <label data-value="{{ column.id }}" class="existing-label form-control title-column-class non-editable-add-column" placeholder="Добавить колонку">{{ column.name }}</label>
+                      <form id="delete-form" action="{% url 'delete_column' id=board.id %}" data-url="{% url 'delete_column' id=board.id %}" data-value="{{column.id}}" novalidate="">
+                        <a id="deleted-settings"  class="list-settings"><button id="deleted-column-yes" data-target="#DeleteColumn" class="link-style list-settings" type="submit"><i class="far fa-times-circle"></i></button></a>
+                      </form>
+                    </div>
+                    <form  id="existing-form-{{column.id}}" class="existing-form"  data-value="{{ column.id }}"  action="{% url 'update_column' id=board.id %}" data-url="{% url 'update_column' id=board.id %}">
                         <input id="exist-list-{{column.id}}" class="form-control title-column-class" data-value="{{column.id}}" value="{{column.name}}"> 
-                        <button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Update</button> 
-                        <button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Cancel</button>  
+                        <button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Обновить</button> 
+                        <button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Отмена</button>  
                     </form>
 
                     <hr>
@@ -135,36 +144,36 @@
                     
                 <!-- Add Card -->
 
-                      <form  id="existing-form-{{column.id}}"class="existing-form"  data-value="{{ column.id }}"  action="{% url 'update_column' id=board.id %}" data-url="{% url 'update_column' id=board.id %}">
+                      <form  id="existing-form-{{column.id}}" class="existing-form"  data-value="{{ column.id }}"  action="{% url 'update_column' id=board.id %}" data-url="{% url 'update_column' id=board.id %}">
                           <input id="exist-list-{{column.id}}" class="form-control title-column-class" data-value="{{column.id}}" value="{{card.name}}"> 
-                          <button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Update</button> 
-                          <button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Cancel</button>  
+                          <button name="UpdateColumn" type="submit" class="btn btn-success btn-add-list">Обновить</button> 
+                          <button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Отмена</button>  
                       </form>
                     {% endif %}
                 {% endfor %}
                 </div>
                 <div class="add-card-division">
                     <div class="add-card-reactor-{{column.id}}">
-                      <label class="form-control title-card-class editable-add-card" data-value="{{column.id}}" placeholder="Add List">Add Card</label>
+                      <label class="form-control title-card-class editable-add-card" data-value="{{column.id}}" placeholder="Добавить карточку">Добавить карточку</label>
                   </div>
 
                   <form id="card-add-form-column-{{column.id}}" class="card-add-form-class toggle-card" action="{% url 'add_card' id=board.id %}" data-url="{% url 'add_card' id=board.id %}" data-value="{{column.id}}">
                       <input id="add-card-{{column.id}}" class="form-control title-column-class" placeholder="Enter Another Card Here"> 
-                      <button name="AddColumn" type="submit" class="btn btn-success btn-add-card">Add</button> 
-                      <button id="close-add-card" data-value="{{column.id}}" type="button" class="btn btn-secondary close-add-card">Cancel</button>  
+                      <button name="AddColumn" type="submit" class="btn btn-success btn-add-card">Добавить</button> 
+                      <button id="close-add-card" data-value="{{column.id}}" type="button" class="btn btn-secondary close-add-card">Отмена</button>  
                   </form>
               </div> 
             </div>
           {% endfor %}
             <div class="floatbox">
                 <div class="add-input-reactor">
-                    <label class="form-control title-column-class non-editable-add-column" placeholder="Add List">Add List</label>
+                    <label class="form-control title-column-class non-editable-add-column" placeholder="Добавить колонку">Добавить колонку</label>
                 </div>
 
                 <form id="list-form" action="{% url 'add_column' id=board.id %}" data-url="{% url 'add_column' id=board.id %}">
                     <input id="add-list" class="form-control title-column-class" placeholder="Enter Another List Here"> 
-                    <button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Add</button> 
-                    <button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Cancel</button>  
+                    <button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Добавить</button> 
+                    <button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Отмена</button>  
                 </form>
             </div>
               <!--  Used for bug fixing a new board -->
@@ -178,6 +187,8 @@
     <input id="hidden-column-update-values" type="hidden" value="{% url 'update_column' id=board.id %}" data-url="{% url 'update_column' id=board.id %}"></input>  
     <input id="hidden-column-get-board" type="hidden" value="{% url 'get_board' id=board.id %}" data-url="{% url 'get_board' id=board.id %}"></input>
     <input id="hidden-column-update-description" type="hidden" value="{% url 'update_card_description' id=board.id %}" data-url="{% url 'update_card_description' id=board.id %}"></input>   
-    <input id="hidden-get-card-action" type="hidden" value="{% url 'get_card_detail' id=board.id %}" data-url="{% url 'get_card_detail' id=board.id %}"></input>  
+    <input id="hidden-get-card-action" type="hidden" value="{% url 'get_card_detail' id=board.id %}" data-url="{% url 'get_card_detail' id=board.id %}"></input>
+    <input id="hidden-transfer-cards" type="hidden" data-url="{% url 'transfer_cards' id=board.id %}"></input>
+    <input id="hidden-column-delete-values" type="hidden" value="{% url 'delete_column' id=board.id %}" data-url="{% url 'delete_column' id=board.id %}"></input>
     </main>
 {% endblock %}

@@ -42,7 +42,7 @@ body{
 
 .hr { 
     display: block;
-    color: black;
+    color: #480000;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     margin-left: auto;
@@ -53,7 +53,7 @@ body{
 
 .hr-comment{
     display: block;
-    color: black;
+    color: #480000;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     margin-left: auto;
@@ -108,8 +108,8 @@ body{
     color:white;
     margin-left: -18px;
     float:left;
-    background-color:black;
-    border-color: black;
+    background-color:#480000;
+    border-color: #480000;
     color: white;
     z-index: 10;
 }
@@ -143,6 +143,7 @@ body{
 
 .padding-left-40{
     padding-left: 40px;
+    display: inline-block;
 }
 .card-comment-time-user{
 
@@ -227,11 +228,10 @@ body{
 }
 
 .custom-row{
-
-	margin-top: 3.5%;
+	/* margin-top: 3.5%; */
     z-index: 2;
 	width: 100%;
-	position: absolute;
+	/* position: absolute; */
 }
 .user-validation-margin-top{
 	margin-top: 150px;
@@ -267,7 +267,7 @@ body{
 
 .create-new-board{
 	margin-top:100px;
-	color:black;
+	color:#480000;
 }
 
 
@@ -354,20 +354,20 @@ hr.border{
     float: left;    
     background-color:white;
     border-color: #808080;
-    color: black;
+    color: #000;
 }
 
 .editable-add-card{
     float:left;
-    background-color:#808080;
-    border-color: #808080;
+    background-color:#681a1a;
+    border-color: #681a1a;
     color: white;
 }
 
 .non-editable-add-column{
     float: left;
-	background-color:black;
-	border-color: #808080;
+	background-color: rgb(167, 4, 4);
+	border-color: rgb(167, 4, 4);
     color: white;
 }
 
@@ -384,8 +384,9 @@ hr.border{
 }
 
 .custom-boards-title{
-	margin-top: 30px;
+	/* margin-top: 30px; */
 	font-size: 20px;
+    display: inline-block;
 }
 
 .custom-boards-dropdown{
@@ -463,9 +464,11 @@ hr.border{
 
 .outer-wrap {
     width:100%; 
-    margin-top: 9%;
-    overflow: auto;
-    height: 75%;
+    /* margin-top: 9%; */
+    overflow-y: hidden;
+    overflow-x: auto;
+    /* height: 75%; */
+    height: 80%;
 }
 .inner-wrap {
     float:left;
@@ -478,6 +481,7 @@ hr.border{
     width:250px;
     margin:20px 20px 0 0;
     background-color: #ccc;
+    height: auto;
 }
 .form-manipulation-class{
 	height: 72%;
@@ -603,7 +607,7 @@ hr.border{
     width:230px;
     overflow-y: auto;
     min-height: 0px;
-    max-height:350px;
+    /* max-height:350px; */
     padding: 0px;
     margin-bottom: 5px;
 }

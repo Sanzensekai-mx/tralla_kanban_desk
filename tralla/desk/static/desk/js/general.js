@@ -28,7 +28,7 @@ $(document).ready(function() {
             });
 
             $('.transferable-columns').droppable({
-                tolerance: "touch",
+                tolerance: "pointer",
                 drop: function(event, ui){
                     var card_id= $(ui.draggable).data("card_id");
                     var to_column_id = $(this).data("value");
@@ -335,9 +335,9 @@ $(document).ready(function() {
         // Ajax Calls
         $(document).on('submit','#list-form', function(e){
             e.preventDefault()
-            var title = $('#add-list').val()
+            var name = $('#add-list').val()
             data = {
-                title : title
+                name : name
             }
             var url = $(this).attr('action');
             $.post(url,data,reload_inner_wrapper,'json'), function(err){
@@ -350,9 +350,9 @@ $(document).ready(function() {
         $(document).on('submit','.existing-form', function(e){
             e.preventDefault();
             id=$(this).data('value');
-            var title = $('#exist-list-' + id).val();
+            var name = $('#exist-list-' + id).val();
             data = {
-                title : title,
+                name : name,
                 id : id
             }
             var url = $(this).attr('action');
@@ -366,26 +366,26 @@ $(document).ready(function() {
         });
 
 
-        $(document).on('submit','#archive-form', function(e){
+        $(document).on('submit','#delete-form', function(e){
             e.preventDefault()
-            $("#ArchiveColumnModal").data('value',$(this).data('value'));
-            $("#ArchiveColumnModal").data('action',$(this).data('action'));
-            $("#ArchiveColumnModal").modal("show");
+            $("#DeleteColumn").data('value',$(this).data('value'));
+            $("#DeleteColumn").data('action',$(this).data('action'));
+            $("#DeleteColumn").modal("show");
         });
 
-        $(document).on('click','#archived-column-yes', function(e){
+        $(document).on('click','#deleted-column-yes', function(e){
             e.preventDefault();
 
-            id=$('#ArchiveColumnModal').data('value');
-            var url = $('#ArchiveColumnModal').data('action');
+            id=$('#delete-form').data('value');
+            var url = $('#delete-form').data('action');
 
             data = {
                 id : id
             }
             if (url == undefined){
-                url = $('#hidden-column-archive-values').val();
+                url = $('#hidden-column-delete-values').val();
             }
-             $("#ArchiveColumnModal").modal("hide");
+             $("#DeleteColumn").modal("hide");
             $.post(url,data,reload_inner_wrapper,'json'), function(err){
 
             };
@@ -761,7 +761,7 @@ $(document).ready(function() {
                    +'     </div>'
                    +'       <div class="modal-body">'
                    +'          <div class="left-portion-of-header col-lg-9 col-md-9 col-sm-9">'
-                   +'               <h5 class="modal-label-desc" id="exampleModalLabel">Card Description</h5>'
+                   +'               <h5 class="modal-label-desc" id="exampleModalLabel">Описание карточки</h5>'
 
                    +'        </div>'
                     +'        <div class="right-portion-of-header col-lg-3 col-md-3 col-sm-3">'
@@ -769,7 +769,7 @@ $(document).ready(function() {
                     +'       </div>'
                     +'         <div class="left-portion-of-modal col-lg-9 col-md-9 col-sm-9">'
 
-                    +'            <textarea readonly id="text-id-description" class="textarea class-description" placeholder="Card Description">'+card_description+'</textarea>'
+                    +'            <textarea readonly id="text-id-description" class="textarea class-description" placeholde="Описание карточки">'+card_description+'</textarea>'
 
                      +'           <button name="" id="card-button-add-description"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Save</button>'
                     +'            <button name="" id="card-button-cancel-description"class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Cancel</button>'
@@ -778,7 +778,7 @@ $(document).ready(function() {
                      +'         <div class="right-portion-of-modal col-lg-3 col-md-3 col-sm-3">'
                      +'             <button data-toggle="modal" data-target="#CardMemberModal" id="pop-assign-members" class="btn btn-secondary card-button-invite mt-1" data-dismiss="modal">Members</button>'
                      +'             <button data-toggle="modal" data-target="#DueDateModal" id="pop-due-date" name="MessageBoxModalAlert" class="btn btn-secondary card-button-due-date mt-1" data-dismiss="modal">Due Date</button>'
-                     +'             <button  data-toggle="modal" data-target="#ArchiveCardConfirmation"  name="MessageBoxModalAlert" class="btn btn-secondary card-button-due-date mt-1" data-dismiss="modal">Archive</button>'
+                     +'             <button  data-toggle="modal" data-target="#ArchiveCardConfirmation"  name="MessageBoxModalAlert" class="btn btn-secondary card-button-due-date mt-1" data-dismiss="modal">Удалить??</button>'
 
                      +'         </div>'
                       +'        <!-- Bottom Part -->'
@@ -788,8 +788,8 @@ $(document).ready(function() {
                      +'       <div class="left-portion-of-header col-lg-9 col-md-9 col-sm-9">'
                      +'             <h5 class="modal-card-add-comment" id="exampleModalLabel">Add Comment</h5>'
                      +'             <textarea id="text-comment-area" class="textarea" placeholder="Write a comment"></textarea>'
-                      +'            <button id="card-button-add-comment" name="" class="btn btn-secondary card-button-add-comment mt-1 float-right display-none">Save</button>'
-                     +'              <button id="card-button-cancel-comment" name="" class="btn btn-secondary card-button-add-comment mt-1 float-right display-none">Cancel</button>'
+                      +'            <button id="card-button-add-comment" name="" class="btn btn-secondary card-button-add-comment mt-1 float-right display-none">Сохранить</button>'
+                     +'              <button id="card-button-cancel-comment" name="" class="btn btn-secondary card-button-add-comment mt-1 float-right display-none">Отмена</button>'
 
                      +'      </div>'
                      +'<div class="comment-reactor"> ';
@@ -821,8 +821,8 @@ $(document).ready(function() {
                              if(user.current_user==comments[index].fields.user){
                                  html+='  <!--  <button data-value="'+comments[index].pk+'" id="EditComment-'+comments[index].pk+'" class="ClassEditComment float-left additional-option-comment link-style btn btn-warning">Edit</button> -->'
                                 +'             <button data-value="'+comments[index].pk+'" data-toggle="modal" data-target="#DeleteCommentModal" id="DeleteComment-'+comments[index].pk+'" class="class-delete-comment float-left additional-option-comment link-style btn btn-danger" data-dismiss="modal">Delete</button>'
-                                +'           <button data-value="'+comments[index].pk+'" name="" id="card-save-button-'+comments[index].pk+'" class="btn btn-secondary card-button-add-comment mt-1 float-right display-none">Save</button>'
-                                +'           <button data-value="'+comments[index].pk+'" name="" id="card-cancel-button-'+comments[index].pk+'" class="class-card-cancel-button btn btn-secondary card-button-add-comment mr-2 mt-1 float-right display-none">Cancel</button>'
+                                +'           <button data-value="'+comments[index].pk+'" name="" id="card-save-button-'+comments[index].pk+'" class="btn btn-secondary card-button-add-comment mt-1 float-right display-none">Сохранить</button>'
+                                +'           <button data-value="'+comments[index].pk+'" name="" id="card-cancel-button-'+comments[index].pk+'" class="class-card-cancel-button btn btn-secondary card-button-add-comment mr-2 mt-1 float-right display-none">Отмена</button>'
                              }
                              html+='         </div>'
                              +'      '
@@ -845,7 +845,7 @@ $(document).ready(function() {
             columns = JSON.parse(data.column);
             cards = JSON.parse(data.card);
             add_popped_url=$('#list-form').data('url');
-            archived_popped_url = $('#hidden-column-archive-values').val();
+            deleted_popped_url = $('#hidden-column-delete-values').val();
             update_popped_url = $('#hidden-column-update-values').val();
             add_card_popped_url = $('#hidden-card-add-values').val();
             transfer_popped_url = $("#hidden-transfer-cards").data("url");
@@ -861,12 +861,12 @@ $(document).ready(function() {
                        + ' class= "existing-reactor" data-value="'+column_id+'"> '
                        + ' <label data-value="'+column_id+'" '
                         + 'class="existing-label form-control title-column-class'
-                        + ' non-editable-add-column" placeholder="Add List">'
+                        + ' non-editable-add-column" placeholder="Добавить колонку">'
                         + ' '+column_name+'</label> '
-                       +'<form id="archive-form" action="'+archived_popped_url+'"'
-                       +' data-url="'+archived_popped_url+'" data-value="'+column_id+'" novalidate="">'
-                        +'<a id="archived-settings"  class="list-settings">'
-                        +'<button class="link-style list-settings" type="submit">[X]</button></a>'
+                       +'<form id="delete-form" action="'+deleted_popped_url+'"'
+                       +' data-url="'+deleted_popped_url+'" data-value="'+column_id+'" novalidate="">'
+                        +'<a id="deleted-settings"  class="list-settings">'
+                        +'<button id="deleted-column-yes" data-target="#DeleteColumn" class="link-style list-settings" type="submit"><i class="far fa-times-circle"></i></button></a>'
                         +'</form>'
                          + ' </div> '
                          + '   <form  id="existing-form-'+column_id+'" ' 
@@ -877,11 +877,11 @@ $(document).ready(function() {
                            + '      title-column-class" data-value="'+column_id+'"'
                            + '      value="'+column_name+'">'
                            + '     <button name="AddColumn" type="submit" '
-                           + '     class="btn btn-success btn-add-list">Update'
+                           + '     class="btn btn-success btn-add-list">Обновить'
                            + '     </button> '
                             + '    <button id="close-add-list" type="button" '
                            + '      class="btn btn-secondary close-add-list"> '
-                           + '      Cancel</button>  '
+                           + '      Отмена</button>  '
                           + '  </form>'
                           + '<div class="group-cards">';
                              b = 0;
@@ -892,7 +892,7 @@ $(document).ready(function() {
                                         +' <center>'
                                         +' <label data-value="'+column_id+'" class=" form-control card-column-class non-editable-add-card">'+cards[b].fields.name+'</label>'
                                         +' </center>'
-                                        +'  <form id="archive-form" action="'+archived_popped_url+'" data-url="'+archived_popped_url+'" data-value="'+column_id+'" novalidate="">'
+                                        +'  <form id="delete-form" action="'+deleted_popped_url+'" data-url="'+deleted_popped_url+'" data-value="'+column_id+'" novalidate="">'
                                         +'  </form>'
                                         +' </div>';
                                 }
@@ -907,17 +907,17 @@ $(document).ready(function() {
                                       + ' <input id="exist-list-'+column_id+'"'
                                       + ' class="form-control title-column-class"'
                                       + 'data-value="'+column_id+'" value="'+column_id+'"> '
-                                      + ' <button name="AddColumn" type="submit"'
-                                      + 'class="btn btn-success btn-add-list">Update</button>' 
+                                      + ' <button name="UpdateColumn" type="submit"'
+                                      + 'class="btn btn-success btn-add-list">Обновить</button>' 
                                       + '<button id="close-add-list" type="button" class="btn'
-                                      + 'btn-secondary close-add-list">Cancel</button>'  
+                                      + 'btn-secondary close-add-list">Отмена</button>'  
                                       + '         </form>'
                                       + '</div>'
                                       +'<div class="add-card-division">'
                                       + '       <div class="add-card-reactor-'+column_id+'">'
                                       + '         <label class="form-control title-card-class'
                                       +' editable-add-card" data-value="'+column_id+'"'
-                                      +' placeholder="Add List">Add Card</label>'
+                                      +' placeholder="Add List">Добавить карточку</label>'
                                       + '     </div>'
                                       + '     <form id="card-add-form-column-'+column_id+'"'
                                       + 'class="card-add-form-class toggle-card"'
@@ -926,12 +926,12 @@ $(document).ready(function() {
                                       + 'data-value="'+column_id+'">'
                                       + '         <input id="add-card-'+column_id+'"' 
                                       + 'class="form-control title-column-class" '
-                                      +' placeholder="Enter Another Card Here"> '
+                                      +' placeholder="Введите название новой колонки"> '
                                       + ' <button name="AddColumn" type="submit"'
-                                      + 'class="btn btn-success btn-add-card">Add</button>'
+                                      + 'class="btn btn-success btn-add-card">Добавить</button>'
                                       + '<button id="close-add-card" data-value="'+column_id+'"'
                                       + 'type="button" class="btn btn-secondary close-add-card">'
-                                      + 'Cancel</button>'
+                                      + 'Отмена</button>'
                                       + '     </form>'
                                       +'</div>'
                                       + ' </div>';
@@ -943,12 +943,12 @@ $(document).ready(function() {
 
             html += '<div class="floatbox">'
                   +'<div class="add-input-reactor">'
-                      +'<label class="form-control title-column-class non-editable-add-column" placeholder="Add List">Add List</label>'
+                      +'<label class="form-control title-column-class non-editable-add-column" placeholder="Добавить колонку">Добавить колонку</label>'
                   +'</div>'
                   +'<form id="list-form" action="'+add_popped_url+'" data-url="'+add_popped_url+'">'
-                      +'<input id="add-list" class="form-control title-column-class" placeholder="Enter Another List Here"> '
-                      +'<button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Add</button> '
-                      +'<button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Cancel</button>'
+                      +'<input id="add-list" class="form-control title-column-class" placeholder="Введите название новой колонки"> '
+                      +'<button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Добавить</button> '
+                      +'<button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Отмена</button>'
                   +'</form>'
               +'</div>';
             $('.inner-wrap').html(html);

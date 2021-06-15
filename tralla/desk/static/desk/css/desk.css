@@ -118,7 +118,17 @@ body {
     width: 32px;
 }
 
-.title {
+.settings {
+    display: inline-block;
+}
+
+.board-name-row {
+    display: flex;
+    justify-self: space-between;
+    margin-top: 20px;
+}
+
+.title-home {
     display: inline-block;
     line-height: 24px;
     margin: 6px 0 0;
@@ -211,9 +221,9 @@ ul {
 }
 
 form {
-    margin-left: 32%;
+    /* margin-left: 32%; */
     width: 500px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
 }
 
 .columns-page {

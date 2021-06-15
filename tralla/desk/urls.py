@@ -14,4 +14,7 @@ urlpatterns = [
     path('<int:id>/get_card', views.GetCardDetails.as_view(),  name="get_card_detail"),
     path('<int:id>/update_card_title', views.UpdateCardTitle.as_view(), name="update_card_title"),
     path('<int:id>/update_card_description', views.UpdateCardDescription.as_view(), name="update_card_description"),
+    path('<int:id>/transfer_card', views.TransferCard.as_view(), name="transfer_cards"),
+    path('<int:id>/delete_card', views.DeleteCard.as_view(), name="delete_card"),
+    path('<int:id>/delete_column', views.DeleteColumn.as_view(), name="delete_column")
 ]

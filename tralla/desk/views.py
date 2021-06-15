@@ -183,7 +183,7 @@ class AddCardView(LoginRequiredMixin, AJAXBoardMixIn, View):
         column_id = self.request.POST.get('id')
         column = get_object_or_404(Column, pk=column_id)
         board = get_object_or_404(Board, pk=self.kwargs.get('id'))
-        new_card = Card(name=name, column=column, position=0, user=self.request.user)
+        new_card = Card(name=name, column=column, position=0)
         new_card.save()
 
         data = self.return_board()
@@ -226,13 +226,13 @@ class TransferCard(LoginRequiredMixin, AJAXBoardMixIn, View):
         board = get_object_or_404(Board, id=self.kwargs.get('id'))
         card = get_object_or_404(Card, id=card_id)
         column_instance = get_object_or_404(
-            Column, pk=self.request.POST.get('to_column_id')
+            Column, id=self.request.POST.get('to_column_id')
         )
         card.column = column_instance
         card.save()
 
         from_column_instance = get_object_or_404(
-            Column, pk=self.request.POST.get('from_column_id')
+            Column, id=self.request.POST.get('from_column_id')
         )
 
         data = self.return_board()
@@ -264,3 +264,26 @@ class UpdateCardDescription(LoginRequiredMixin, View):
         card.description = description
         card.save()
         return HttpResponse('success!')
+
+
+class DeleteCard(LoginRequiredMixin, View, AJAXBoardMixIn):
+
+    def post(self, *args, **kwargs):
+        card_id = self.request.POST.get('card_id')
+        card = get_object_or_404(Card, id=card_id)
+        board = get_object_or_404(Board, id=self.kwargs.get('id'))
+        card.delete()
+        data = self.return_board()
+        return JsonResponse(data)
+
+
+class DeleteColumn(LoginRequiredMixin, View, AJAXBoardMixIn):
+
+    def post(self, *args, **kwargs):
+        column_id = self.request.POST.get('id')
+        column = get_object_or_404(Column, id=column_id)
+        board = get_object_or_404(Board, pk=self.kwargs.get('id'))
+        column.delete()
+        data = self.return_board()
+        # needs to be changed
+        return JsonResponse(data)
