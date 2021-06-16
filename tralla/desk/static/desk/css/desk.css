@@ -220,11 +220,11 @@ ul {
     transition: transform .10s;
 }
 
-form {
+/* form {
     /* margin-left: 32%; */
     /* width: 500px; */
     /* margin-top: 50px; */
-}
+/* } */ 
 
 .columns-page {
     display: flex;

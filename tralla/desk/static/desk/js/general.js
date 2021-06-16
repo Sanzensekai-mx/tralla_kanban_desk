@@ -13,7 +13,7 @@ $(document).ready(function() {
     function init_drag_and_drop_mechanics() {
         $('.card-reactor').draggable({
             helper: 'clone',
-            containment: ".inner-wrap",
+            // containment: ".inner-wrap",
             scroll: true,
             scrollSensitivity: 200,
             revert: 'invalid',
@@ -309,8 +309,6 @@ $(document).ready(function() {
     }
 
     function zero_padding(val) {
-        // padding for date month
-        // date time local doesn't accept '7' -> must be '07'
         if (val >= 10)
             return val;
         else
@@ -428,36 +426,6 @@ $(document).ready(function() {
         reload_home_board_page(data);
     }
 
-    // $(document).on("click", '#home-button-new-board', function() {
-    //     username = $(this).data('value');
-    //     var name = $('#input-board-title').val();
-    //     data = {
-    //         name: name,
-    //         username: username
-    //     }
-    //     console.log(username)
-    //     var url = $('#hidden-create-board').data('url');
-    //     console.log(url)
-    //     console.log(data)
-    //     $.post(url, data, reload_home_board_page, 'json').fail(function(err) {
-    //         console.log(err);
-    //     })
-    // });
-
-
-    // $(document).on("click", '.board-page', function() {
-    //     username = $(this).data('value');
-    //     data = {
-    //         username: username
-    //     }
-    //     console.log(username)
-    //     var url = $('#hidden-create-board').data('url');
-    //     console.log(url)
-    //     console.log(data)
-    //     $.get(url, data, reload_home_board_page, 'json').fail(function(err) {
-    //         console.log(err);
-    //     })
-    // });
 
     $(document).on('submit', '#list-form', function(e) {
         e.preventDefault()
@@ -1099,7 +1067,7 @@ $(document).ready(function() {
                 'data-value="' + column_id + '">' +
                 '         <input id="add-card-' + column_id + '"' +
                 'class="form-control title-column-class" ' +
-                ' placeholder="Введите название новой колонки"> ' +
+                ' placeholder="Введите имя колонки"> ' +
                 ' <button name="AddColumn" type="submit"' +
                 'class="btn btn-success btn-add-card">Добавить</button>' +
                 '<button id="close-add-card" data-value="' + column_id + '"' +

@@ -475,7 +475,7 @@ hr.border {
     width: 100%;
     /* margin-top: 9%; */
     overflow-y: hidden;
-    overflow-x: auto;
+    overflow-x: hidden;
     /* height: 75%; */
     height: 80%;
 }
