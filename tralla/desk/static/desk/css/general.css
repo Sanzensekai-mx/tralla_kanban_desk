@@ -95,24 +95,35 @@ body {
 }
 
 .link-style {
-    margin-top: 5px;
-    float: left;
+    margin-left: -45px;
+    height: 25px;
+    width: 25px;
+    background-color: transparent;
     color: inherit;
     font: inherit;
     /*border is optional*/
-    border: 1px solid #cccccc;
+    /* border: 1px solid #cccccc; */
     cursor: pointer;
 }
 
 .list-settings {
     color: white;
-    margin-left: -18px;
     float: left;
-    background-color: #480000;
-    border-color: #480000;
+    border-color: transparent;
     color: white;
     z-index: 10;
+    height: 35px;
+    width: 40px;
+    /* padding-left: 10px; */
 }
+
+
+/* .faru {
+    height: 32px;
+    line-height: 32px;
+    margin-left: -5px;
+    width: 30px;
+} */
 
 .vertical-wall {
     height: 400px;
@@ -379,6 +390,13 @@ hr.border {
     /* margin-top: 30px; */
     font-size: 20px;
     display: inline-block;
+}
+
+.error-board-title {
+    color: red;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .custom-boards-dropdown {

@@ -26,6 +26,13 @@
         </div>
     </div>
 </div>
+<!-- <form name="BoardsModal" id="DeleteBoardModal" method="post" novalidate="">
+    {% csrf_token %}
+    <div class="modal-footer">
+        <button name="DeleteModal" type="submit" class="btn btn-primary">Удалить доску</button>
+
+    </div>
+</form> -->
 
 
 <!-- card modal-->
@@ -92,14 +99,18 @@
     <!-- col-sm-5 -->
     <div class="col-lg-5 col-md-5 col-xs-5 padding-left-40">
         <p class="custom-boards-title"> {{ board.name }} </p>
+
         <div class="dropdown ml-3 text-right dropdown-right settings">
             <a class="btn btn-primary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Настройки
-                </a>
-
+            </a>
+            <p class="error-board-title">{{ error }}</p>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" data-toggle="modal" data-target="#EditBoardModal">Обновить название</a>
-                <a class="dropdown-item" data-toggle="modal" data-target="#ArchiveBoardModal">Удалить доску??</a>
+                <!-- <form name="BoardsModal" id="DeleteBoardModal" method="post" novalidate=""> -->
+                <!-- {% csrf_token %} -->
+                <a data-url="{% url 'desk_home' user.username %}" class="dropdown-item" id="DeleteBoardModal" data-target="#DeleteBoardModal">Удалить доску</a>
+                <!-- </form> -->
             </div>
         </div>
     </div>
@@ -114,7 +125,8 @@
             <div id="existing-label-{{column.id}}" class="existing-reactor" data-value="{{ column.id }}">
                 <label data-value="{{ column.id }}" class="existing-label form-control title-column-class non-editable-add-column" placeholder="Добавить колонку">{{ column.name }}</label>
                 <form id="delete-form" action="{% url 'delete_column' id=board.id %}" data-url="{% url 'delete_column' id=board.id %}" data-value="{{column.id}}" novalidate="">
-                    <a id="deleted-settings" class="list-settings"><button data-value="{{ column.id }}" class="link-style list-settings deleted-column-yes" type="submit"><i class="far fa-times-circle"></i></button></a>
+                    <button data-value="{{ column.id }}" class="link-style list-settings deleted-column-yes" type="submit"><i class="far fa-times-circle"></i></button>
+                    <!-- <a id="deleted-settings" class="list-settings"></a> -->
                 </form>
             </div>
             <form id="existing-form-{{column.id}}" class="existing-form" data-value="{{ column.id }}" action="{% url 'update_column' id=board.id %}" data-url="{% url 'update_column' id=board.id %}">
@@ -166,7 +178,6 @@
                 <button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Отмена</button>
             </form>
         </div>
-        <!--  Used for bug fixing a new board -->
 
     </div>
 </div>
@@ -175,11 +186,11 @@
 
 <input id="hidden-card-add-values" type="hidden" value="{% url 'add_card' id=board.id %}" data-url="{% url 'add_card' id=board.id %}"></input>
 <input id="hidden-column-update-values" type="hidden" value="{% url 'update_column' id=board.id %}" data-url="{% url 'update_column' id=board.id %}"></input>
-<!-- get_board см old_board.txt -->
 <input id="hidden-column-update-description" type="hidden" value="{% url 'update_card_description' id=board.id %}" data-url="{% url 'update_card_description' id=board.id %}"></input>
 <input id="hidden-get-card-action" type="hidden" value="{% url 'get_card_detail' id=board.id %}" data-url="{% url 'get_card_detail' id=board.id %}"></input>
 <input id="hidden-transfer-cards" type="hidden" data-url="{% url 'transfer_cards' id=board.id %}"></input>
 <input id="hidden-column-delete-values" type="hidden" value="{% url 'delete_column' id=board.id %}" data-url="{% url 'delete_column' id=board.id %}"></input>
 <input id="hidden-delete-cards" type="hidden" value="{% url 'delete_card' id=board.id %}"></input>
+<input id="hidden-delete-board" type="hidden" data-url="{% url 'delete_board' id=board.id %}" data-username="{{user.username}}" data-value="{{board.id}}"></input>
 </main>
 {% endblock %}

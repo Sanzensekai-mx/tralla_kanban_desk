@@ -1,4 +1,13 @@
-{% extends 'desk/desk_layout.html' %} {% block title %}Home | {{user.username}}{% endblock %} {% block username %} {{ user.username }} {% endblock %} {% block content %}
+{% extends 'desk/desk_layout.html' %} {% block title %}Home | {{user.username}}{% endblock %} {% block username %} {{ user.username }} {% endblock %} {% block content %} {% block refresh %}
+<script>
+    setTimeout(function() {
+        if (window.location.hash != '#r') {
+            window.location.hash = 'r';
+            window.location.reload(1);
+        }
+    }, 500);
+</script>
+{% endblock %}
 <main>
     <div class="desk-field">
         <div class="desk-field-title">
@@ -15,20 +24,48 @@
                 </li>
                 {% endfor %}
                 <li class="board-section">
-                    <a class="board-tile create-board" href="{% url 'create_board' username=user.username%}"><i class="fas fa-plus"></i></a>
+                    <a class="board-tile create-board" data-toggle="modal" data-target="#EditBoardModal" href="{% url 'set_new_board' username=user.username%}"><i class="fas fa-plus"></i></a>
                 </li>
             </ul>
         </div>
     </div>
     <!-- # Add new board -->
-    <div class="class-new-board">
-        <div class="modal fade bd-example-modal-lg" id="BoardModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade modal-fixed" id="EditBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- <div> -->
+        <div class="modal-dialog" role="document">
+            <!-- <div> -->
+            <div class="modal-content">
+                <!-- <div> -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Название доски</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <form name="BoardsModal" method="post" novalidate="">
+                    {% csrf_token %}
+                    <!-- <div class="modal-body"> -->
+                    <div>
+                        {{ form.board_name }}
+                    </div>
+                    <div class="modal-footer">
+                        <button name="EditModal" type="submit" class="btn btn-primary">Создать доску</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="class-new-board">
+        <div class="modal fade bd-example-modal-lg" id="BoardsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="left-portion-of-header col-lg-9 col-md-9 col-sm-9">
-                            <h3 id="heading-card-title" action="{% url 'create_board' username=user.username %}" data-value="{{user.username}}" class="modal-title card-class-title"><strong><div class="reload-title">Название доски</div></strong></h3>
-                            <input id="input-card-title" class="form-control card-class-title display-none" value="Card Title">
+
+                            <h3 id="heading-card-title" action="{% url 'create_board' username=user.username %}" data-value="{{user.username}}" class="modal-title card-class-title"><strong><div class="board-title">Название доски</div></strong></h3>
+                            <input id="input-board-title" class="form-control card-class-title display-none" value="Card Title">
                             <button name="" id="card-button-update-title" class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Сохранить</button>
                             <button name="" id="card-button-cancel-title" class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Отмена</button>
                         </div>
@@ -41,7 +78,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </main>
+<input id="hidden-new-board" type="hidden" value="{% url 'set_new_board' username=user.username %}" data-url="{% url 'set_new_board' username=user.username %}"></input>
 <input id="hidden-create-board" type="hidden" value="{% url 'create_board' username=user.username %}" data-url="{% url 'create_board' username=user.username %}"></input>
 {% endblock %}

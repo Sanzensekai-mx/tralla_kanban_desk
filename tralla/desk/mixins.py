@@ -53,6 +53,8 @@ class AJAXHomeMixIn:
         boards = Board.objects.filter(user__id=user.id)
         serialized_data_boards = serializers.serialize('json', boards)
 
-        data = {'boards': boards}
+        data = {'boards': serialized_data_boards,
+                'current_user': user
+                }
 
         return data

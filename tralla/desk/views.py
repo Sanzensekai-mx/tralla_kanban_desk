@@ -1,5 +1,5 @@
 from django.db.models import Max
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -32,12 +32,14 @@ def desk_logout(request, username):
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = "desk/home.html"
+    login_url = '/signin'
     form = BoardForm
 
     def get(self, *args, **kwargs):
         context = self.form()
         username = self.kwargs.get('username')
         user = get_object_or_404(User, username=username)
+        # board = get_object_or_404(Board, user=user)
         boards = Board.objects.filter(user__id=user.id)
         return render(self.request, self.template_name,
                       {'form': context, 'boards': boards, 'current_user': username}
@@ -49,46 +51,27 @@ class IndexView(LoginRequiredMixin, TemplateView):
         user = get_object_or_404(User, username=username)
         if form.is_valid():
             form.save_board(user)
+            # board = get_object_or_404(Board, user=user)
             boards = Board.objects.filter(user__id=user.id)
             form = self.form()
             return render(self.request, self.template_name,
-                          {'form': form, 'boards': boards, 'current_user': username}
+                          {'form': form, 'boards': boards,
+                           'current_user': username}
                           )
         else:
             boards = Board.objects.filter(user__id=user.id)
 
         return render(self.request, self.template_name,
-                      {'form': form, 'boards': boards, 'current_user': username}
+                      {'form': form, 'boards': boards,
+                       'current_user': username}
                       )
-
-
-# # @login_required(login_url='/signin')
-# def create_board(request, board_id):
-#     user = request.user
-#     # user = get_object_or_404(User, id=user_id)
-#     board = get_object_or_404(Board, id=board_id)
-#     error = ''
-#     if request.method == 'POST':
-#         form = BoardForm(request.POST)
-#         if form.is_valid():
-#             new_board = form.save(commit=False)
-#             new_board.user = user
-#             new_board.update_board(new_board)
-#             return redirect('/desk/home')
-#         else:
-#             error = f'Форма неверна'
-#     else:
-#         form = BoardForm()
-#     # if user.id == board.user.id:
-#     return render(request, 'desk/board.html', {'form': form, 'error': error, 'user': user})
-#     # else:
-#     #     return HttpResponse('Иди нахер')
 
 
 class BoardView(LoginRequiredMixin, generic.DetailView):
     model = Board
     board_form = BoardForm
     template_name = 'desk/board.html'
+    login_url = '/signin'
 
     def get(self, *args, **kwargs):
         board_form = self.board_form()
@@ -120,44 +103,102 @@ class BoardView(LoginRequiredMixin, generic.DetailView):
         boards = Board.objects.filter(user__id=user_id)
         columns = Column.objects.filter(board__id=board_id)
         cards = Card.objects.filter(column__board__id=board_id)
-        if self.request.method == 'POST':
-            board_form = self.board_form(self.request.POST)
-            if board_form.is_valid():
-                board = board_form.update_board(board)
-                return render(self.request, self.template_name,
-                              {
-                                  'board_form': board_form, 'board': board,
-                                  'current_user': username, 'columns': columns,
-                                  'cards': cards, 'boards': boards, 'user': user
-                              })
-            else:
-                error = f'Форма неверна'
+        # if self.request.method == 'POST':
+        board_form = self.board_form(self.request.POST)
+        if board_form.is_valid():
+            board = board_form.update_board(board)
         else:
-            board_form = self.board_form()
+            error = f'Введите название доски'
         return render(self.request, self.template_name,
                       {
                           'board_form': board_form, 'board': board,
                           'current_user': username, 'columns': columns,
-                          'cards': cards, 'boards': boards, 'user': user
+                          'cards': cards, 'boards': boards, 'user': user, 'error': error
                       })
+        # else:
+        #     board_form = self.board_form()
+        # return render(self.request, self.template_name,
+        #               {
+        #                   'board_form': board_form, 'board': board,
+        #                   'current_user': username, 'columns': columns,
+        #                   'cards': cards, 'boards': boards, 'user': user
+        #               })
     # def get_object(self, **kwargs):
     #     return self.request.user
 
 
-class CreateBoard(LoginRequiredMixin, AJAXHomeMixIn, View):
-    # form = BoardForm
+class DeleteBoard(LoginRequiredMixin, AJAXHomeMixIn, View):
+    login_url = '/signin'
+    template_name = 'desk/home.html'
+    form = BoardForm
 
     def post(self, *args, **kwargs):
-        board_name = 'Новая доска'
-        username = self.kwargs.get('username')
-        user = get_object_or_404(User, username=username)
-        new_board = Board(name=board_name, user=self.request.user)
-        new_board.save()
+        board_id = self.request.POST.get('board_id')
+        print(board_id)
+        username = self.request.POST.get('username')
+        board = get_object_or_404(Board, id=board_id)
+        # print(board.user.username)
+        # print(board.user.username)
+        # data = self.return_boards()
+
+        user = board.user
+        boards = Board.objects.filter(user__id=user.id)
+        print(boards)
+        form = self.form()
+        board.delete()
+        return redirect(f'/desk/{user.username}')
+        # return HttpResponse('Sucess')
+        # return JsonResponse(data)
+        # return render(self.request, self.template_name,
+        #               {'form': form, 'boards': boards,
+        #                'current_user': username})
+
+
+class CreateBoard(LoginRequiredMixin, AJAXHomeMixIn, View):
+    board_form = BoardForm
+    template_name = 'desk/board.html'
+    login_url = reverse_lazy('/signin')
+
+    def post(self, *args, **kwargs):
+        error = ''
+        user = self.request.user
+        username = user.username
+        # if self.request.method == 'POST':
+        board_form = self.board_form(self.request.POST)
+        if board_form.is_valid():
+            board = board_form.save_board(user)
+            board_id = board.id
+            columns = Column.objects.filter(board__id=board_id)
+            cards = Card.objects.filter(column__board__id=board_id)
+            print(board_id)
+        else:
+            error = f'Введите название доски'
+        return render(self.request, self.template_name,
+                      {
+                          'board_form': board_form, 'board': board,
+                          'current_user': username, 'columns': columns,
+                          'cards': cards, 'user': user, 'error': error
+                      })
+        # board_name = self.request.POST.get('name')
+        # username = self.request.POST.get('username')
+        # user = get_object_or_404(User, username=username)
+        # new_board = Board(name=board_name, user=self.request.user)
+        # new_board.save()
+        # data = self.return_boards()
+        # return JsonResponse(data)
+
+
+class GetBoardsInfo(LoginRequiredMixin, AJAXHomeMixIn, View):
+    login_url = '/signin'
+
+    def get(self, *args, **kwargs):
         data = self.return_boards()
+        print(data)
         return JsonResponse(data)
 
 
 class AddColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
+    login_url = '/signin'
 
     def post(self, *args, **kwargs):
         column_name = self.request.POST.get('name')
@@ -176,6 +217,7 @@ class AddColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
 
 
 class UpdateColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
+    login_url = '/signin'
 
     def post(self, *args, **kwargs):
         name = self.request.POST.get('name')
@@ -190,6 +232,7 @@ class UpdateColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
 
 
 class AddCardView(LoginRequiredMixin, AJAXBoardMixIn, View):
+    login_url = '/signin'
 
     def post(self, *args, **kwargs):
         name = self.request.POST.get('name')
@@ -204,6 +247,7 @@ class AddCardView(LoginRequiredMixin, AJAXBoardMixIn, View):
 
 
 class GetBoardDetails(LoginRequiredMixin, AJAXBoardMixIn, View):
+    login_url = '/signin'
 
     def get(self, *args, **kwargs):
         data = self.return_board()
@@ -211,28 +255,29 @@ class GetBoardDetails(LoginRequiredMixin, AJAXBoardMixIn, View):
 
 
 class GetCardDetails(LoginRequiredMixin, AJAXCardMixIn, View):
+    login_url = '/signin'
 
     def get(self, *args, **kwargs):
         data = self.return_card()
         return JsonResponse(data)
 
 
-class UpdateCardName(LoginRequiredMixin, AJAXCardMixIn, View):
-    login_url = reverse_lazy('users:log_in')
-
-    def post(self, *args, **kwargs):
-        name = self.request.POST.get('name')
-        card_id = self.request.POST.get('card_id')
-        board = get_object_or_404(Board, pk=self.kwargs.get('id'))
-        card = get_object_or_404(Card, pk=card_id)
-        card.name = name
-        card.save()
-
-        data = self.return_card()
-        return JsonResponse(data)
+# class UpdateCardName(LoginRequiredMixin, AJAXCardMixIn, View):
+#
+#     def post(self, *args, **kwargs):
+#         name = self.request.POST.get('name')
+#         card_id = self.request.POST.get('card_id')
+#         board = get_object_or_404(Board, pk=self.kwargs.get('id'))
+#         card = get_object_or_404(Card, pk=card_id)
+#         card.name = name
+#         card.save()
+#
+#         data = self.return_card()
+#         return JsonResponse(data)
 
 
 class TransferCard(LoginRequiredMixin, AJAXBoardMixIn, View):
+    login_url = '/signin'
 
     def post(self, *args, **kwargs):
         card_id = self.request.POST.get('card_id')
@@ -253,6 +298,7 @@ class TransferCard(LoginRequiredMixin, AJAXBoardMixIn, View):
 
 
 class UpdateCardTitle(LoginRequiredMixin, AJAXCardMixIn, View):
+    login_url = '/signin'
 
     def post(self, *args, **kwargs):
         name = self.request.POST.get('title')
@@ -268,6 +314,7 @@ class UpdateCardTitle(LoginRequiredMixin, AJAXCardMixIn, View):
 
 
 class UpdateCardDescription(LoginRequiredMixin, View):
+    login_url = '/signin'
 
     def post(self, *args, **kwargs):
         description = self.request.POST.get('description')
@@ -280,6 +327,7 @@ class UpdateCardDescription(LoginRequiredMixin, View):
 
 
 class DeleteCard(LoginRequiredMixin, View, AJAXBoardMixIn):
+    login_url = '/signin'
 
     def post(self, *args, **kwargs):
         card_id = self.request.POST.get('card_id')
@@ -291,6 +339,7 @@ class DeleteCard(LoginRequiredMixin, View, AJAXBoardMixIn):
 
 
 class DeleteColumn(LoginRequiredMixin, View, AJAXBoardMixIn):
+    login_url = '/signin'
 
     def post(self, *args, **kwargs):
         column_id = self.request.POST.get('id')

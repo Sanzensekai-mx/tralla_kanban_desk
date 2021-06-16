@@ -48,11 +48,6 @@ $(document).ready(function() {
                     };
             }
         });
-        $('.inner-wrap').ready(function() {
-            $('.inner-wrap').animate({
-                scrollTop: $(".card-reactor").offset().top
-            }, 2000);
-        });
     }
 
     init_drag_and_drop_mechanics();
@@ -344,29 +339,125 @@ $(document).ready(function() {
 
     // Ajax Calls
     //Boards Ajax
-    // $(document).on("click", '.card-reactor', function() {
-    //     // Loading card values to modal
-    //     card_id = $(this).data('card_id');
+    $(document).on("click", '.create-board', function() {
+        var username = $(this).data('value');
+        var url = $("#hidden-new-board-set").data('url')
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                username: username
+            },
+            sucess: function(data) {
+                // $('#BoardsModal').modal('show');
+                console.log('sucess')
+            }
+        })
+    });
+
+    $(document).on('click', '#DeleteBoardModal', function() {
+        var board_id = $("#hidden-delete-board").data('value')
+        var url = $("#hidden-delete-board").data('url')
+        var username = $("#hidden-delete-board").data('usename')
+        var url2 = $('#DeleteBoardModal').data('url')
+        console.log('Delete');
+        // $.post(url, data, 'json')
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                board_id: board_id,
+                username: username
+            },
+            reload_home_boards,
+            sucess: function(data) {
+                console.log('Delete sucess')
+            },
+            fail: function(data) {
+                console.log('Invalid delete')
+            }
+        });
+        if (url2) {
+            window.location.href = url2;
+            // location.reload()
+        }
+
+    });
     //     data = {
-    //         card_id: card_id
+    //         username: username
     //     }
 
-    //     console.log(card_id);
-    //     var url = $('#hidden-get-card-action').data('url');
+    //     var url = $('#hidden-new-board-set').data('url');
     //     console.log(url);
-    //     $.get(url, data, reload_card, 'json').fail(function(err) {
-    //         console.log(err);
-    //     })
-
+    //     $.get(url, data, reload_card, 'json')
+    //         .done(function() {
+    //             $('#BoardsModal').modal('show');
+    //         })
+    //         .fail(function(err) {
+    //             console.log(err);
+    //         })
     // });
 
-    $(document).on("click", '.board-page', function() {
-        username = $(this).data('value');
-        data = {
-            username: username
-        }
-        console.log(username)
-    });
+    // function get_home_boards() {
+    //     url = $("#hidden-new-board-set").data('url')
+    //     $.get(url, null, reload_inner_wrapper, 'json'),
+    //         function(err) {
+    //             console.log("error");
+    //         };
+    // };
+
+    // $(document).on("click", '.create-board', function() {
+    //     $("#BoardsModal").modal('hide');
+    //     reload_home_board_page(data)
+    //     $("#BoardsModal").modal('show');
+    // });
+    reload_home_boards_stream = function(data) {
+        url = $('#hidden-new-board-set').data('url');
+        $.get(url)
+            .done(function(response) {
+                $('.sidebar-body').html(response);
+            });
+    }
+
+    reload_home_boards = function(data) {
+        $('.board-title').empty();
+        boards = JSON.parse(data.boards);
+        html = boards[0].fields.name;
+        $('.board-title').append(html);
+        get_home_boards();
+        reload_home_board_page(data);
+    }
+
+    // $(document).on("click", '#home-button-new-board', function() {
+    //     username = $(this).data('value');
+    //     var name = $('#input-board-title').val();
+    //     data = {
+    //         name: name,
+    //         username: username
+    //     }
+    //     console.log(username)
+    //     var url = $('#hidden-create-board').data('url');
+    //     console.log(url)
+    //     console.log(data)
+    //     $.post(url, data, reload_home_board_page, 'json').fail(function(err) {
+    //         console.log(err);
+    //     })
+    // });
+
+
+    // $(document).on("click", '.board-page', function() {
+    //     username = $(this).data('value');
+    //     data = {
+    //         username: username
+    //     }
+    //     console.log(username)
+    //     var url = $('#hidden-create-board').data('url');
+    //     console.log(url)
+    //     console.log(data)
+    //     $.get(url, data, reload_home_board_page, 'json').fail(function(err) {
+    //         console.log(err);
+    //     })
+    // });
 
     $(document).on('submit', '#list-form', function(e) {
         e.preventDefault()
@@ -886,25 +977,26 @@ $(document).ready(function() {
         boards = JSON.parse(data.boards);
         username = JSON.parse(data.username)
         create_popped_url = $('#hidden-create-board').val();
+        console.log(username);
         console.log(create_popped_url);
-        $('board-page').empty();
+        // $('board-page').empty();
         var a = 0;
         html = "";
         while (a < boards.length) {
-            board_id = boards[a].id
-            board_name = boards[a].name
+            board_id = boards[a].id;
+            board_name = boards[a].name;
             html += '<li class="board-section">' +
                 '<a class="board-tile" href="' + create_popped_url + '">' + board_name + '</a> </li>'
             html += '<!-- # Add new board -->' +
-                '<div class="class-new-board">' +
-                '<div class="modal fade bd-example-modal-lg" id="BoardModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">' +
+                '<div class="class-new-board" id="BoardsModal">' +
+                '<div class="modal fade bd-example-modal-lg" id="BoardsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">' +
                 '<div class="modal-dialog modal-lg">' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
                 '<div class="left-portion-of-header col-lg-9 col-md-9 col-sm-9">' +
-                '<h3 id="heading-card-title" action="' + create_popped_url + '" data-value="' + username + '" class="modal-title card-class-title"><strong><div class="reload-title">Название доски</div></strong></h3>' +
+                '<h3 id="heading-card-title" action="' + create_popped_url + '" data-value="' + username + '" class="modal-title card-class-title"><strong><div class="board-title">Название доски</div></strong></h3>' +
                 '<input id="input-card-title" class="form-control card-class-title display-none" value="Card Title">' +
-                '<button name="" id="card-button-update-title" class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Сохранить</button>' +
+                '<button name="" id="home-button-new-board" class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Сохранить</button>' +
                 '<button name="" id="card-button-cancel-title" class="btn btn-secondary card-button-add-description mt-1 float-right display-none">Отмена</button>' +
                 '</div>' +
                 '<div class="right-portion-of-header col-lg-3 col-md-3 col-sm-3">' +
@@ -917,8 +1009,9 @@ $(document).ready(function() {
                 '</div>' +
                 '</div>' +
                 '</div>';
+            a += 1;
         }
-
+        $(".class-new-board").html(html);
     };
 
     // Reloading the board
