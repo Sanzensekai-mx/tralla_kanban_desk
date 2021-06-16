@@ -94,6 +94,13 @@ body {
     margin-right: 10px;
 }
 
+
+.btn-primary {
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #0062cc;
+}
+
 .link-style {
     margin-left: -45px;
     height: 25px;
@@ -116,14 +123,6 @@ body {
     width: 40px;
     /* padding-left: 10px; */
 }
-
-
-/* .faru {
-    height: 32px;
-    line-height: 32px;
-    margin-left: -5px;
-    width: 30px;
-} */
 
 .vertical-wall {
     height: 400px;
@@ -339,6 +338,7 @@ hr.border {
 
 .title-column-class {
     height: 35px;
+    /* width: 250px; */
 }
 
 .card-column-class {
@@ -529,6 +529,13 @@ hr.border {
     margin-right: 10%;
 }
 
+.setting-btn {
+    border-color: rgb(167, 4, 4);
+    border-radius: 3px;
+    border-width: 5px;
+}
+
+
 .button-margin {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -542,6 +549,9 @@ hr.border {
 
 .sign-up-input {
     font-size: 15px;
+    width: 70%;
+    margin-right: 15%;
+    margin-left: 15%;
 }
 
 #label-error {

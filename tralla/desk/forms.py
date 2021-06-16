@@ -1,6 +1,6 @@
-from django.forms import ModelForm, TextInput, Textarea, Form
+from django.forms import TextInput, Form
 from django import forms
-from .models import Board, Column, Card
+from .models import Board
 
 
 class BoardForm(Form):

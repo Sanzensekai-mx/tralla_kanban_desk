@@ -1,9 +1,5 @@
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.urls import reverse
-from django.shortcuts import render
 from .models import Column, Card, Board
 from django.contrib.auth.models import User
-import json
 from django.core import serializers
 from django.shortcuts import get_object_or_404
 

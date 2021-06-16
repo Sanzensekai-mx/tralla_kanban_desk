@@ -90,7 +90,7 @@ class BoardView(LoginRequiredMixin, generic.DetailView):
                               'cards': card, 'user': user, 'boards': boards
                           })
         else:
-            # Вернуть шаблон, либо ошибку 403
+            # Вернуть шаблон, либо 403
             return HttpResponse('403')
 
     def post(self, *args, **kwargs):
@@ -103,7 +103,6 @@ class BoardView(LoginRequiredMixin, generic.DetailView):
         boards = Board.objects.filter(user__id=user_id)
         columns = Column.objects.filter(board__id=board_id)
         cards = Card.objects.filter(column__board__id=board_id)
-        # if self.request.method == 'POST':
         board_form = self.board_form(self.request.POST)
         if board_form.is_valid():
             board = board_form.update_board(board)
@@ -115,43 +114,22 @@ class BoardView(LoginRequiredMixin, generic.DetailView):
                           'current_user': username, 'columns': columns,
                           'cards': cards, 'boards': boards, 'user': user, 'error': error
                       })
-        # else:
-        #     board_form = self.board_form()
-        # return render(self.request, self.template_name,
-        #               {
-        #                   'board_form': board_form, 'board': board,
-        #                   'current_user': username, 'columns': columns,
-        #                   'cards': cards, 'boards': boards, 'user': user
-        #               })
-    # def get_object(self, **kwargs):
-    #     return self.request.user
 
 
 class DeleteBoard(LoginRequiredMixin, AJAXHomeMixIn, View):
     login_url = '/signin'
-    template_name = 'desk/home.html'
-    form = BoardForm
 
     def post(self, *args, **kwargs):
         board_id = self.request.POST.get('board_id')
         print(board_id)
-        username = self.request.POST.get('username')
+        # username = self.request.POST.get('username')
         board = get_object_or_404(Board, id=board_id)
-        # print(board.user.username)
-        # print(board.user.username)
-        # data = self.return_boards()
 
         user = board.user
         boards = Board.objects.filter(user__id=user.id)
         print(boards)
-        form = self.form()
         board.delete()
         return redirect(f'/desk/{user.username}')
-        # return HttpResponse('Sucess')
-        # return JsonResponse(data)
-        # return render(self.request, self.template_name,
-        #               {'form': form, 'boards': boards,
-        #                'current_user': username})
 
 
 class CreateBoard(LoginRequiredMixin, AJAXHomeMixIn, View):
@@ -163,7 +141,6 @@ class CreateBoard(LoginRequiredMixin, AJAXHomeMixIn, View):
         error = ''
         user = self.request.user
         username = user.username
-        # if self.request.method == 'POST':
         board_form = self.board_form(self.request.POST)
         if board_form.is_valid():
             board = board_form.save_board(user)
@@ -179,13 +156,6 @@ class CreateBoard(LoginRequiredMixin, AJAXHomeMixIn, View):
                           'current_user': username, 'columns': columns,
                           'cards': cards, 'user': user, 'error': error
                       })
-        # board_name = self.request.POST.get('name')
-        # username = self.request.POST.get('username')
-        # user = get_object_or_404(User, username=username)
-        # new_board = Board(name=board_name, user=self.request.user)
-        # new_board.save()
-        # data = self.return_boards()
-        # return JsonResponse(data)
 
 
 class GetBoardsInfo(LoginRequiredMixin, AJAXHomeMixIn, View):
@@ -212,7 +182,6 @@ class AddColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
         new_column = Column(board=board, name=column_name, position=to_add_position, user=self.request.user)
         new_column.save()
         data = self.return_board()
-        # needs to be changed
         return JsonResponse(data)
 
 
@@ -227,7 +196,6 @@ class UpdateColumnView(LoginRequiredMixin, AJAXBoardMixIn, View):
         column.name = name
         column.save()
         data = self.return_board()
-        # needs to be changed
         return JsonResponse(data)
 
 
@@ -262,20 +230,6 @@ class GetCardDetails(LoginRequiredMixin, AJAXCardMixIn, View):
         return JsonResponse(data)
 
 
-# class UpdateCardName(LoginRequiredMixin, AJAXCardMixIn, View):
-#
-#     def post(self, *args, **kwargs):
-#         name = self.request.POST.get('name')
-#         card_id = self.request.POST.get('card_id')
-#         board = get_object_or_404(Board, pk=self.kwargs.get('id'))
-#         card = get_object_or_404(Card, pk=card_id)
-#         card.name = name
-#         card.save()
-#
-#         data = self.return_card()
-#         return JsonResponse(data)
-
-
 class TransferCard(LoginRequiredMixin, AJAXBoardMixIn, View):
     login_url = '/signin'
 
@@ -283,15 +237,15 @@ class TransferCard(LoginRequiredMixin, AJAXBoardMixIn, View):
         card_id = self.request.POST.get('card_id')
         board = get_object_or_404(Board, id=self.kwargs.get('id'))
         card = get_object_or_404(Card, id=card_id)
-        column_instance = get_object_or_404(
+        column = get_object_or_404(
             Column, id=self.request.POST.get('to_column_id')
         )
-        card.column = column_instance
+        card.column = column
         card.save()
 
-        from_column_instance = get_object_or_404(
-            Column, id=self.request.POST.get('from_column_id')
-        )
+        # from_column = get_object_or_404(
+        #     Column, id=self.request.POST.get('from_column_id')
+        # )
 
         data = self.return_board()
         return JsonResponse(data)
@@ -318,7 +272,7 @@ class UpdateCardDescription(LoginRequiredMixin, View):
 
     def post(self, *args, **kwargs):
         description = self.request.POST.get('description')
-        board = get_object_or_404(Board, pk=self.kwargs.get('id'))
+        # board = get_object_or_404(Board, pk=self.kwargs.get('id'))
         card_id = self.request.POST.get('card_id')
         card = get_object_or_404(Card, pk=card_id)
         card.description = description
@@ -332,7 +286,7 @@ class DeleteCard(LoginRequiredMixin, View, AJAXBoardMixIn):
     def post(self, *args, **kwargs):
         card_id = self.request.POST.get('card_id')
         card = get_object_or_404(Card, id=card_id)
-        board = get_object_or_404(Board, id=self.kwargs.get('id'))
+        # board = get_object_or_404(Board, id=self.kwargs.get('id'))
         card.delete()
         data = self.return_board()
         return JsonResponse(data)
@@ -344,8 +298,7 @@ class DeleteColumn(LoginRequiredMixin, View, AJAXBoardMixIn):
     def post(self, *args, **kwargs):
         column_id = self.request.POST.get('id')
         column = get_object_or_404(Column, id=column_id)
-        board = get_object_or_404(Board, pk=self.kwargs.get('id'))
+        # board = get_object_or_404(Board, pk=self.kwargs.get('id'))
         column.delete()
         data = self.return_board()
-        # needs to be changed
         return JsonResponse(data)

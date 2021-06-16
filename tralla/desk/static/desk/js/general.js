@@ -1039,8 +1039,7 @@ $(document).ready(function() {
                 ' ' + column_name + '</label> ' +
                 '<form id="delete-form" action="' + deleted_popped_url + '"' +
                 ' data-url="' + deleted_popped_url + '" data-value="' + column_id + '" novalidate="">' +
-                '<a id="deleted-settings"  class="list-settings">' +
-                '<button class="link-style list-settings deleted-column-yes" data-value="' + column_id + '" type="submit"><i class="far fa-times-circle"></i></button></a>' +
+                '<button class="link-style list-settings deleted-column-yes" data-value="' + column_id + '" type="submit"><i class="far fa-times-circle"></i></button>' +
                 '</form>' +
                 ' </div> ' +
                 '   <form  id="existing-form-' + column_id + '" ' +
@@ -1120,7 +1119,7 @@ $(document).ready(function() {
             '<label class="form-control title-column-class non-editable-add-column" placeholder="Добавить колонку">Добавить колонку</label>' +
             '</div>' +
             '<form id="list-form" action="' + add_popped_url + '" data-url="' + add_popped_url + '">' +
-            '<input id="add-list" class="form-control title-column-class" placeholder="Введите название новой колонки"> ' +
+            '<input id="add-list" class="form-control title-column-class" placeholder="Введите имя колонки"> ' +
             '<button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Добавить</button> ' +
             '<button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Отмена</button>' +
             '</form>' +

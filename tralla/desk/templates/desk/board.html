@@ -30,7 +30,6 @@
     {% csrf_token %}
     <div class="modal-footer">
         <button name="DeleteModal" type="submit" class="btn btn-primary">Удалить доску</button>
-
     </div>
 </form> -->
 
@@ -101,7 +100,7 @@
         <p class="custom-boards-title"> {{ board.name }} </p>
 
         <div class="dropdown ml-3 text-right dropdown-right settings">
-            <a class="btn btn-primary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn setting-btn dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Настройки
             </a>
             <p class="error-board-title">{{ error }}</p>
@@ -160,7 +159,7 @@
                 </div>
 
                 <form id="card-add-form-column-{{column.id}}" class="card-add-form-class toggle-card" action="{% url 'add_card' id=board.id %}" data-url="{% url 'add_card' id=board.id %}" data-value="{{column.id}}">
-                    <input id="add-card-{{column.id}}" class="form-control title-column-class" placeholder="Enter Another Card Here">
+                    <input id="add-card-{{column.id}}" class="form-control title-column-class" placeholder="Введите имя карточки">
                     <button name="AddColumn" type="submit" class="btn btn-success btn-add-card">Добавить</button>
                     <button id="close-add-card" data-value="{{column.id}}" type="button" class="btn btn-secondary close-add-card">Отмена</button>
                 </form>
@@ -173,7 +172,7 @@
             </div>
 
             <form id="list-form" action="{% url 'add_column' id=board.id %}" data-url="{% url 'add_column' id=board.id %}">
-                <input id="add-list" class="form-control title-column-class" placeholder="Enter Another List Here">
+                <input id="add-list" class="form-control title-column-class" placeholder="Введите имя колонки">
                 <button name="AddColumn" type="submit" class="btn btn-success btn-add-list">Добавить</button>
                 <button id="close-add-list" type="button" class="btn btn-secondary close-add-list">Отмена</button>
             </form>
