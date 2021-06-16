@@ -1067,7 +1067,7 @@ $(document).ready(function() {
                 'data-value="' + column_id + '">' +
                 '         <input id="add-card-' + column_id + '"' +
                 'class="form-control title-column-class" ' +
-                ' placeholder="Введите имя колонки"> ' +
+                ' placeholder="Введите имя карточки"> ' +
                 ' <button name="AddColumn" type="submit"' +
                 'class="btn btn-success btn-add-card">Добавить</button>' +
                 '<button id="close-add-card" data-value="' + column_id + '"' +
