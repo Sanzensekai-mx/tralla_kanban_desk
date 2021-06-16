@@ -18,7 +18,7 @@
 
 Запуск сервера:
 `python manage.py runserver`
-![ChatId](https://i.imgur.com/XEAdAWM.png)
+
 ### Работа в tralla
 
 После простой регистрации перед пользователем появляется "домашняя" страница с его досками.
