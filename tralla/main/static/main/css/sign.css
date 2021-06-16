@@ -1,0 +1,77 @@
+.logo-center {
+    display: table;
+    height: 43px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.logo-img {
+    display: table-cell;
+    vertical-align: middle;
+    /* display: inline; */
+    border: 0; 
+    width: 80px;
+    height: 80px;
+}
+
+.logo-text {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 50px;
+    padding-left: 15px;
+}
+
+.input-section-wrapper {
+    /* margin-left: 25%; */
+    /* margin-right: 25%; */
+    /* width: 30%; */
+    /* margin: auto, 10vh; */
+    display:block;
+    margin: auto;
+    width: 50vh;
+    /* float: center; */
+    /* align-content: center; */
+}
+
+.sign_form {
+    padding: 25px 40px;
+    border: 3px;
+    border-color: brown;
+    border-style: solid;
+    /* display: table; */
+}
+
+h4 {
+    display: block;
+    /* position: relative; */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 25px;
+    /* color: darkgoldenrod; */
+
+}
+
+form {
+    text-align: center;
+}
+
+/* #id_username {
+    margin-left: 5px;
+}
+
+#id_password {
+    margin-left: 10px;
+} */
+
+.form-group {
+    margin: 10px 0;
+}
+
+.form-group input{
+    width: 200px;
+    height: 25px;
+    border-radius: 3px;
+}

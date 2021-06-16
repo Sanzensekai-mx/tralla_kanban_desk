@@ -1,0 +1,25 @@
+{% extends 'main/sign_layout.html' %}
+
+{% block title %}Вход | Tralla{% endblock %}
+
+{% block content %}
+<h4>Вход</h4>
+<form method="post">
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            <div>{{field}}</div>
+            {% if field.errors %}
+                {% for error in fields.errors %}
+                <div class="alert alert-danger">
+                    {{error}}
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% csrf_token %}
+    <p><input class="form-group" type="submit" value="Войти"></p>
+    {{ not_valid }}
+</form>
+{% endblock %}
